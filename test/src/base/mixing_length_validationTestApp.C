@@ -1,0 +1,62 @@
+//* This file is part of the MOOSE framework
+//* https://www.mooseframework.org
+//*
+//* All rights reserved, see COPYRIGHT for full restrictions
+//* https://github.com/idaholab/moose/blob/master/COPYRIGHT
+//*
+//* Licensed under LGPL 2.1, please see LICENSE for details
+//* https://www.gnu.org/licenses/lgpl-2.1.html
+#include "mixing_length_validationTestApp.h"
+#include "mixing_length_validationApp.h"
+#include "Moose.h"
+#include "AppFactory.h"
+#include "MooseSyntax.h"
+#include "ModulesApp.h"
+
+InputParameters
+mixing_length_validationTestApp::validParams()
+{
+  InputParameters params = mixing_length_validationApp::validParams();
+  return params;
+}
+
+mixing_length_validationTestApp::mixing_length_validationTestApp(InputParameters parameters) : MooseApp(parameters)
+{
+  mixing_length_validationTestApp::registerAll(
+      _factory, _action_factory, _syntax, getParam<bool>("allow_test_objects"));
+}
+
+mixing_length_validationTestApp::~mixing_length_validationTestApp() {}
+
+void
+mixing_length_validationTestApp::registerAll(Factory & f, ActionFactory & af, Syntax & s, bool use_test_objs)
+{
+  mixing_length_validationApp::registerAll(f, af, s);
+  if (use_test_objs)
+  {
+    Registry::registerObjectsTo(f, {"mixing_length_validationTestApp"});
+    Registry::registerActionsTo(af, {"mixing_length_validationTestApp"});
+  }
+}
+
+void
+mixing_length_validationTestApp::registerApps()
+{
+  registerApp(mixing_length_validationApp);
+  registerApp(mixing_length_validationTestApp);
+}
+
+/***************************************************************************************************
+ *********************** Dynamic Library Entry Points - DO NOT MODIFY ******************************
+ **************************************************************************************************/
+// External entry point for dynamic application loading
+extern "C" void
+mixing_length_validationTestApp__registerAll(Factory & f, ActionFactory & af, Syntax & s)
+{
+  mixing_length_validationTestApp::registerAll(f, af, s);
+}
+extern "C" void
+mixing_length_validationTestApp__registerApps()
+{
+  mixing_length_validationTestApp::registerApps();
+}
