@@ -1,9 +1,9 @@
 von_karman_const = 0.41
 
 H = 1 #halfwidth of the channel
-L = 30
+L = 150
 
-Re_t = 180
+Re_t = 395
 Re = 13700
 
 #rho = 1
@@ -28,7 +28,7 @@ velocity_interp_method='rc'
     dim = 2
     dx = '${L}'
     dy = '0.9 0.1'
-    ix = '40'
+    ix = '200'
     iy = '9  1'
   []
 []
@@ -204,7 +204,7 @@ velocity_interp_method='rc'
     von_karman_const = ${von_karman_const}
   []
   [wall_shear_stress]
-    type = MixingLengthWallShearStress
+    type = WallFunctionWallShearStressAux
     variable = wall_shear_stress
     walls = 'top'
     u = u
@@ -213,7 +213,7 @@ velocity_interp_method='rc'
     rho = ${rho}
   []
   [wall_yplus]
-    type = WallYPlusAux
+    type = WallFunctionYPlusAux
     variable = wall_yplus
     walls = 'top'
     u = u
@@ -264,7 +264,7 @@ velocity_interp_method='rc'
     function = 0
   []
   [wall-u]
-    type = DevelopedWallShearBC
+    type = INSFVWallFunctionBC
     variable = u
     boundary = 'top'
     u = u
@@ -274,7 +274,7 @@ velocity_interp_method='rc'
     momentum_component = x
   []
   [wall-v]
-    type = DevelopedWallShearBC
+    type = INSFVWallFunctionBC
     variable = v
     boundary = 'top'
     u = u
